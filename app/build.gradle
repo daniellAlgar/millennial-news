@@ -9,7 +9,13 @@ android {
 }
 
 dependencies {
+    // Common
+    implementation project(Modules.common)
 
     // Android
     implementation AndroidLibraries.appCompat
+
+    // Koin
+    implementation Libraries.koin
+    implementation Libraries.koinViewModel
 }

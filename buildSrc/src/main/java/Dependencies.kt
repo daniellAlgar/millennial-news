@@ -4,6 +4,7 @@ object ApplicationId {
 
 object Modules {
     const val app = ":app"
+    const val common = ":common"
 }
 
 object Releases {
@@ -23,6 +24,13 @@ object Versions {
     const val androidTestRunner = "1.1.2-alpha02"
     const val espressoCore = "3.2.0-alpha02"
     const val archCoreTest = "2.0.0"
+    const val koin = "1.0.2"
+}
+
+object Libraries {
+    // Koin
+    const val koin = "org.koin:koin-android:${Versions.koin}"
+    const val koinViewModel = "org.koin:koin-android-viewmodel:${Versions.koin}"
 }
 
 object KotlinLibraries {
