@@ -1,0 +1,28 @@
+apply plugin: 'kotlin'
+
+dependencies {
+    // Kotlin
+    implementation KotlinLibraries.kotlin
+    implementation KotlinLibraries.kotlinCoroutineCore
+
+    // Data module
+    implementation project(Modules.model)
+
+    // Network
+    implementation Libraries.retrofit
+    implementation Libraries.retrofitGsonConverter
+    implementation Libraries.httpLoggingInterceptor
+    implementation Libraries.gson
+
+    // Time
+    implementation Libraries.joda
+
+    // Koin
+    implementation Libraries.koin
+    implementation Libraries.koinViewModel
+
+    // Test
+    testImplementation TestLibraries.junit
+    testImplementation TestLibraries.koin
+    testImplementation TestLibraries.mockWebServer
+}

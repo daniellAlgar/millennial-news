@@ -1,2 +1,2 @@
-include ':app', ':common'
+include ':app', ':common', ':remote', ':data:model'
 rootProject.name='Millennial News'
