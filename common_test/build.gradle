@@ -1,0 +1,20 @@
+apply plugin: 'com.android.library'
+apply from: '../android_commons.gradle'
+
+dependencies {
+    // Modules
+    implementation project(Modules.model)
+
+    // Android
+    implementation AndroidLibraries.lifecycleExtensions
+    implementation AndroidLibraries.recyclerView
+
+    // Other libraries
+    implementation Libraries.koin
+    implementation Libraries.koinViewModel
+
+    // Test
+    implementation TestLibraries.androidTestRunner
+    implementation TestLibraries.espresso
+    implementation TestLibraries.coroutine
+}

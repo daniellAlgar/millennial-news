@@ -5,6 +5,7 @@ object ApplicationId {
 object Modules {
     const val app = ":app"
     const val common = ":common"
+    const val commonTest = ":common_test"
     const val model = ":data:model"
 }
 
@@ -34,6 +35,12 @@ object Versions {
     const val mockk = "1.9.2"
     const val coroutines = "1.3.2"
     const val joda = "2.9.9"
+    const val constraintLayout = "1.1.3"
+    const val lifecycle = "2.1.0-alpha04"
+    const val recyclerview = "1.0.0"
+    const val nav = "2.0.0"
+    const val fragmentTest = "1.1.0-alpha06"
+    const val databinding = "3.3.2"
 }
 
 object Libraries {
@@ -54,6 +61,7 @@ object Libraries {
 object KotlinLibraries {
     const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
     const val kotlinCoroutineCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
+    const val kotlinCoroutineAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
 }
 
 object AndroidLibraries {
@@ -62,6 +70,12 @@ object AndroidLibraries {
 
     const val appCompat = "androidx.appcompat:appcompat:${Versions.appCompat}"
     const val coreKtx = "androidx.core:core-ktx:${Versions.coreKtx}"
+    const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
+    const val lifecycleViewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
+    const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycle}"
+    const val recyclerView = "androidx.recyclerview:recyclerview:${Versions.recyclerview}"
+    const val navigation = "androidx.navigation:navigation-ui-ktx:${Versions.nav}"
+    const val navigationFrag = "androidx.navigation:navigation-fragment-ktx:${Versions.nav}"
 }
 
 object TestLibraries {
@@ -71,6 +85,7 @@ object TestLibraries {
     const val espressoContrib = "androidx.test.espresso:espresso-contrib:${Versions.espressoCore}"
     const val archCoreTest = "androidx.arch.core:core-testing:${Versions.archCoreTest}"
     const val junit = "androidx.test.ext:junit:${Versions.androidJunit}"
+    const val fragmentNav = "androidx.fragment:fragment-testing:${Versions.fragmentTest}"
 
     // Mock
     const val mockWebServer = "com.squareup.okhttp:mockwebserver:${Versions.mockWebServer}"
@@ -82,4 +97,7 @@ object TestLibraries {
 
     // Koin
     const val koin = "org.koin:koin-test:${Versions.koin}"
+
+    // Data binding
+    const val databinding = "androidx.databinding:databinding-compiler:${Versions.databinding}"
 }
