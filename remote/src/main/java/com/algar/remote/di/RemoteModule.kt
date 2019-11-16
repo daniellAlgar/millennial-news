@@ -1,9 +1,11 @@
 package com.algar.remote.di
 
+import com.algar.remote.AppDispatchers
 import com.algar.remote.DateTimeSerializer
 import com.algar.remote.NewsDataSource
 import com.algar.remote.NewsService
 import com.google.gson.GsonBuilder
+import kotlinx.coroutines.Dispatchers
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -40,11 +42,13 @@ fun createRemoteModule(baseUrl: String) = module {
 
     factory { get<Retrofit>().create(NewsService::class.java) }
 
-    factory { NewsDataSource(newsService = get()) }
+    factory { NewsDataSource(newsService = get(), dispatchers = get()) }
 
     single {
         GsonBuilder()
             .registerTypeAdapter(DateTime::class.java, DateTimeSerializer.INSTANCE)
             .create()
     }
+
+    factory { AppDispatchers(main = Dispatchers.Main, io = Dispatchers.IO) }
 }
