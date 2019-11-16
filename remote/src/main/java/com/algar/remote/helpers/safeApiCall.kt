@@ -1,5 +1,6 @@
-package com.algar.remote
+package com.algar.remote.helpers
 
+import com.algar.remote.model.ApiResponse
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException

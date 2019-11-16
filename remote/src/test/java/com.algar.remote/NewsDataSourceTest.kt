@@ -1,8 +1,8 @@
 package com.algar.remote
 
-import com.algar.remote.ApiResponse.Error
-import com.algar.remote.ApiResponse.NetworkError
-import com.algar.remote.ApiResponse.Success
+import com.algar.remote.model.ApiResponse.Error
+import com.algar.remote.model.ApiResponse.NetworkError
+import com.algar.remote.model.ApiResponse.Success
 import com.algar.remote.base.BaseTest
 import org.junit.Test
 import org.junit.Assert.assertEquals
@@ -44,7 +44,7 @@ class NewsDataSourceTest: BaseTest() {
 
     @Test
     fun `Fetch from api when there is no network connection returns a NetworkError`() {
-        mockNoNetworkConnection(mockServer = mockServer)
+        mockNoNetworkConnection(server = mockServer)
 
         runBlocking {
             val response = newsService.fetchTopHeadlines()

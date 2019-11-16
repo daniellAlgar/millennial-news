@@ -52,7 +52,7 @@ abstract class BaseTest: KoinTest {
         )
     }
 
-    fun mockNoNetworkConnection(mockServer: MockWebServer) {
+    fun mockNoNetworkConnection(server: MockWebServer) {
         val noNetworkDispatcher = object : Dispatcher() {
             @Throws(InterruptedException::class, IOException::class)
             override fun dispatch(request: RecordedRequest): MockResponse {
@@ -60,7 +60,7 @@ abstract class BaseTest: KoinTest {
             }
         }
 
-        mockServer.setDispatcher(noNetworkDispatcher)
+        server.setDispatcher(noNetworkDispatcher)
     }
 
     @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")

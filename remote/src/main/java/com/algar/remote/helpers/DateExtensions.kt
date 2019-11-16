@@ -1,4 +1,4 @@
-package com.algar.remote
+package com.algar.remote.helpers
 
 import org.joda.time.DateTime
 import org.joda.time.format.ISODateTimeFormat

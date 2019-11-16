@@ -1,4 +1,4 @@
-package com.algar.remote
+package com.algar.remote.helpers
 
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer

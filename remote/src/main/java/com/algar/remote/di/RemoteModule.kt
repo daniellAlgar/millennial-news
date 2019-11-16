@@ -1,7 +1,6 @@
 package com.algar.remote.di
 
-import com.algar.remote.AppDispatchers
-import com.algar.remote.DateTimeSerializer
+import com.algar.remote.helpers.DateTimeSerializer
 import com.algar.remote.NewsDataSource
 import com.algar.remote.NewsService
 import com.google.gson.GsonBuilder
@@ -42,7 +41,7 @@ fun createRemoteModule(baseUrl: String) = module {
 
     factory { get<Retrofit>().create(NewsService::class.java) }
 
-    factory { NewsDataSource(newsService = get(), dispatchers = get()) }
+    factory { NewsDataSource(newsService = get(), dispatcher = get()) }
 
     single {
         GsonBuilder()
@@ -50,5 +49,5 @@ fun createRemoteModule(baseUrl: String) = module {
             .create()
     }
 
-    factory { AppDispatchers(main = Dispatchers.Main, io = Dispatchers.IO) }
+    factory { Dispatchers.IO }
 }
