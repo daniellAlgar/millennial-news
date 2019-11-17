@@ -7,6 +7,7 @@ object Modules {
     const val common = ":common"
     const val commonTest = ":common_test"
     const val model = ":data:model"
+    const val navigation = ":navigation"
 }
 
 object Releases {
@@ -41,6 +42,7 @@ object Versions {
     const val nav = "2.0.0"
     const val fragmentTest = "1.1.0-alpha06"
     const val databinding = "3.3.2"
+    const val safeArgs = "2.1.0-alpha01"
 }
 
 object Libraries {
