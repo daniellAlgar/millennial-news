@@ -10,7 +10,7 @@ object Modules {
     const val repository = ":repository"
     const val remote = ":remote"
     const val navigation = ":navigation"
-    const val featureHome = ":home"
+    const val featureHome = ":features:home"
 }
 
 object Releases {
