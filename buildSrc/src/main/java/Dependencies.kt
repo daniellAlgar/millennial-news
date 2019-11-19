@@ -8,7 +8,9 @@ object Modules {
     const val commonTest = ":common_test"
     const val model = ":data:model"
     const val repository = ":repository"
+    const val remote = ":remote"
     const val navigation = ":navigation"
+    const val featureHome = ":home"
 }
 
 object Releases {

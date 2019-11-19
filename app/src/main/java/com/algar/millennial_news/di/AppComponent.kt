@@ -1,5 +1,11 @@
 package com.algar.millennial_news.di
 
-import org.koin.dsl.module.Module
+import com.algar.home.di.featureHomeModule
+import com.algar.remote.di.createRemoteModule
+import com.algar.repository.di.repositoryModule
 
-val appComponent = listOf<Module>()
+val appComponent = listOf(
+    createRemoteModule("https://"),
+    repositoryModule,
+    featureHomeModule
+)
