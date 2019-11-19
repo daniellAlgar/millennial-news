@@ -1,0 +1,24 @@
+apply plugin: 'com.android.library'
+apply from: '../android_commons.gradle'
+
+dependencies {
+    // Modules
+    api project(Modules.remote)     // Not sure I want Modules.remote to be api...?
+    api project(Modules.model)
+
+    // Android
+    implementation KotlinLibraries.kotlinCoroutineCore
+    implementation KotlinLibraries.kotlinCoroutineAndroid
+    implementation AndroidLibraries.lifecycleExtensions
+
+    // Koin
+    implementation Libraries.koin
+    implementation Libraries.koinViewModel
+
+    // Test
+    testImplementation TestLibraries.junit
+    testImplementation TestLibraries.mockk
+    testImplementation TestLibraries.archCoreTest
+    testImplementation TestLibraries.coroutine
+    testImplementation project(Modules.commonTest)
+}

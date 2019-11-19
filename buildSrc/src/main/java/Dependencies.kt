@@ -7,6 +7,7 @@ object Modules {
     const val common = ":common"
     const val commonTest = ":common_test"
     const val model = ":data:model"
+    const val repository = ":repository"
     const val navigation = ":navigation"
 }
 
@@ -69,7 +70,6 @@ object KotlinLibraries {
 object AndroidLibraries {
     // Kotlin
     const val kotlinCoroutineAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
-
     const val appCompat = "androidx.appcompat:appcompat:${Versions.appCompat}"
     const val coreKtx = "androidx.core:core-ktx:${Versions.coreKtx}"
     const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
