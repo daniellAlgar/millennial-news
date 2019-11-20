@@ -36,7 +36,10 @@ abstract class BaseTest: KoinTest {
     }
 
     private fun configureDI() {
-        StandAloneContext.startKoin(listOf(createRemoteModule(mockServer.url("/").toString())))
+        StandAloneContext.startKoin(listOf(createRemoteModule(
+            baseUrl = mockServer.url("/").toString(),
+            apiKey = "dummy-key"
+        )))
     }
 
     private fun configureMockServer() {

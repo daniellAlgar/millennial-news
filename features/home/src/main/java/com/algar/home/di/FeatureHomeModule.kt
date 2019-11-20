@@ -6,5 +6,5 @@ import org.koin.dsl.module.module
 
 val featureHomeModule = module {
     factory { GetTopHeadlinesUseCase(repository = get()) }
-    factory { HomeViewModel() }
+    factory { HomeViewModel(getTopHeadlinesUseCase = get(), dispatchers = get()) }
 }

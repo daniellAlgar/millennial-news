@@ -18,7 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory
  *
  * @param baseUrl The base api endpoint
  */
-fun createRemoteModule(baseUrl: String) = module {
+fun createRemoteModule(baseUrl: String, apiKey: String) = module {
 
     single {
         Retrofit.Builder()
@@ -28,9 +28,21 @@ fun createRemoteModule(baseUrl: String) = module {
             .build()
     }
 
+    val headersInterceptor = Interceptor {
+        val interceptor = it.request()
+            .newBuilder()
+            .addHeader("Accept", "application/json")
+            .addHeader("Content-Type", "application/json")
+            .addHeader("x-api-key", apiKey)
+            .build()
+
+        it.proceed(interceptor)
+    }
+
     factory {
         OkHttpClient.Builder()
             .addInterceptor(get())
+            .addInterceptor(headersInterceptor)
             .build()
     }
 

@@ -14,5 +14,5 @@ open class App: Application() {
     // Configuration
     open fun configureDi() = startKoin(this, provideComponents())
 
-    open fun provideComponents(): List<Module> = appComponent
+    open fun provideComponents(): List<Module> = appComponent(context = this)
 }
