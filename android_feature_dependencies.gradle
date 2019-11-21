@@ -15,6 +15,9 @@ dependencies {
     implementation Libraries.koin
     implementation Libraries.koinViewModel
 
+    // Others
+    implementation Libraries.joda
+
     // Test
     androidTestImplementation TestLibraries.androidTestRunner
     androidTestImplementation TestLibraries.junit

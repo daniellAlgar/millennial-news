@@ -1,18 +1,19 @@
 package com.algar.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import com.algar.common.base.BaseFragment
 import com.algar.common.base.BaseViewModel
+import com.algar.home.databinding.FragmentHomeBinding
+import com.algar.home.views.HomeAdapter
 import org.koin.android.ext.android.inject
 
 class HomeFragment : BaseFragment() {
 
     private val viewModel: HomeViewModel by inject()
+    private lateinit var viewBinding: FragmentHomeBinding
 
     override fun getViewModel(): BaseViewModel = viewModel
 
@@ -21,12 +22,18 @@ class HomeFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_home, container, false)
+        viewBinding = FragmentHomeBinding.inflate(inflater, container,false)
+        viewBinding.viewModel = viewModel
+        viewBinding.lifecycleOwner = viewLifecycleOwner
+        return viewBinding.root
+    }
 
-        viewModel.topHeadlines.observe(this, Observer {
-            Log.d("HomeFragment", "$it")
-        })
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        configureRecyclerView()
+    }
 
-        return view
+    private fun configureRecyclerView() {
+        viewBinding.fragmentHomeRecyclerView.adapter = HomeAdapter(viewModel = viewModel)
     }
 }

@@ -6,6 +6,10 @@ android {
         applicationId ApplicationId.id
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    dataBinding {
+        enabled true
+    }
 }
 
 dependencies {
