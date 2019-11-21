@@ -1,5 +1,7 @@
 # Millennial News
 
+The latest news, as seen through the eyes of a millennial.
+
 ## Secrets
 
 Add the file `app/src/main/res/values/secrets.xml` and define it as 
