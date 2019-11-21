@@ -1,1 +1,8 @@
-include ':app', ':common', ':data:remote', ':data:model', ':common_test', ':navigation', ':features:home', ':data:repository'
+// Other modules
+include ':app', ':common', ':common_test', ':navigation'
+
+// Data modules
+include ':data:model', ':data:repository', ':data:remote'
+
+// Feature modules
+include ':features:home'
