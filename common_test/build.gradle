@@ -4,6 +4,7 @@ apply from: '../android_commons.gradle'
 dependencies {
     // Modules
     implementation project(Modules.model)
+    implementation project(Modules.remote)
 
     // Android
     implementation AndroidLibraries.lifecycleExtensions
@@ -12,6 +13,7 @@ dependencies {
     // Other libraries
     implementation Libraries.koin
     implementation Libraries.koinViewModel
+    implementation Libraries.joda
 
     // Test
     implementation TestLibraries.androidTestRunner
