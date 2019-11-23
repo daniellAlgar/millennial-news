@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="HomeRecyclerViewStyle">
+        <item name="android:layout_marginStart">@dimen/margin_horizontal</item>
+        <item name="android:layout_marginEnd">@dimen/margin_horizontal</item>
+    </style>
+
+    <style name="HomeItemContainerStyle">
+        <item name="android:layout_marginStart">@dimen/margin_horizontal</item>
+        <item name="android:layout_marginEnd">@dimen/margin_horizontal</item>
+        <item name="android:layout_marginTop">@dimen/margin_vertical</item>
+        <item name="android:layout_marginBottom">@dimen/margin_vertical</item>
+    </style>
+
+    <style name="HomeItemTextStyle">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:lineSpacingExtra">2dp</item>
+        <item name="android:textSize">@dimen/text_large</item>
+    </style>
+</resources>
