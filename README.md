@@ -1,6 +1,6 @@
 # Millennial News
 
-The latest news, as seen through the eyes of a millennial.
+Because millennials only read the headlines. 
 
 ## Secrets
 
