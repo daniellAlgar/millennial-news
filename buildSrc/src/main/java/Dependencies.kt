@@ -23,7 +23,7 @@ object Versions {
     const val minSdk = 23
     const val targetSdk = 28
     const val kotlin = "1.3.60-eap-25"
-    const val gradle = "4.0.0-alpha03"
+    const val gradle = "4.0.0-alpha04"
     const val appCompat = "1.1.0"
     const val coreKtx = "1.1.0"
     const val androidJunit = "1.1.1"
