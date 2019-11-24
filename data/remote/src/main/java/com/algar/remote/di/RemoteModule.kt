@@ -9,7 +9,7 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.joda.time.DateTime
-import org.koin.dsl.module.module
+import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -41,14 +41,15 @@ fun createRemoteModule(baseUrl: String, apiKey: String) = module {
 
     factory {
         OkHttpClient.Builder()
-            .addInterceptor(get())
+            .addInterceptor(get<Interceptor>())
             .addInterceptor(headersInterceptor)
             .build()
     }
 
     factory<Interceptor> {
-        HttpLoggingInterceptor()
-            .setLevel(HttpLoggingInterceptor.Level.HEADERS)
+        HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.HEADERS
+        }
     }
 
     factory { get<Retrofit>().create(NewsService::class.java) }

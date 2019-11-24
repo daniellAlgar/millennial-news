@@ -9,7 +9,7 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:${Versions.gradle}"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.safeArgs}"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.nav}"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle.kts files
@@ -18,7 +18,7 @@ buildscript {
 
 plugins {
     // Run with `./gradlew dependencyUpdates`
-    id "com.github.ben-manes.versions" version "0.20.0"
+    id "com.github.ben-manes.versions" version "0.27.0"
 }
 
 allprojects {

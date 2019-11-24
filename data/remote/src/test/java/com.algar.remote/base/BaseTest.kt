@@ -7,11 +7,14 @@ import com.squareup.okhttp.mockwebserver.MockResponse
 import com.squareup.okhttp.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Before
-import org.koin.standalone.StandAloneContext
-import org.koin.standalone.inject
 import org.koin.test.KoinTest
 import java.io.File
 import com.squareup.okhttp.mockwebserver.RecordedRequest
+import org.koin.core.KoinApplication
+import org.koin.core.context.loadKoinModules
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
+import org.koin.test.inject
 import java.io.IOException
 
 abstract class BaseTest: KoinTest {
@@ -28,7 +31,7 @@ abstract class BaseTest: KoinTest {
     @After
     open fun tearDown() {
         stopMockServer()
-        StandAloneContext.stopKoin()
+        stopKoin()
     }
 
     private fun stopMockServer() {
@@ -36,10 +39,13 @@ abstract class BaseTest: KoinTest {
     }
 
     private fun configureDI() {
-        StandAloneContext.startKoin(listOf(createRemoteModule(
-            baseUrl = mockServer.url("/").toString(),
-            apiKey = "dummy-key"
-        )))
+        startKoin { KoinApplication.create() }
+        loadKoinModules(listOf(
+            createRemoteModule(
+                baseUrl = mockServer.url("/").toString(),
+                apiKey = "dummy-key"
+            )
+        ))
     }
 
     private fun configureMockServer() {
