@@ -5,6 +5,17 @@ apply plugin: "com.android.library"
 apply from: '../../android_commons.gradle'
 apply from: '../../android_core_dependencies.gradle'
 
+android {
+    compileOptions {
+        sourceCompatibility(JavaVersion.VERSION_1_8)
+        targetCompatibility(JavaVersion.VERSION_1_8)
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+}
+
 dependencies {
     // Modules
     implementation project(Modules.common)
