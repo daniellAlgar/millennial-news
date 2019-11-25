@@ -6,9 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.algar.common.base.BaseViewModel
 import com.algar.home.domain.GetTopHeadlinesUseCase
-import com.algar.model.NewsResponse
-import com.algar.remote.model.ApiResponse
+import com.algar.model.Article
 import com.algar.repository.AppDispatchers
+import com.algar.repository.utils.Resource
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -17,9 +17,9 @@ class HomeViewModel(
     private val dispatchers: AppDispatchers
 ) : BaseViewModel() {
 
-    private val _topHeadlines = MediatorLiveData<ApiResponse<NewsResponse>>()
-    val topHeadlines: LiveData<ApiResponse<NewsResponse>> = _topHeadlines
-    private var topHeadlinesSource: LiveData<ApiResponse<NewsResponse>> = MutableLiveData()
+    private val _topHeadlines = MediatorLiveData<Resource<List<Article>>>()
+    val topHeadlines: LiveData<Resource<List<Article>>> = _topHeadlines
+    private var topHeadlinesSource: LiveData<Resource<List<Article>>> = MutableLiveData()
 
     init {
         getTopHeadlines()

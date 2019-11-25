@@ -9,13 +9,13 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.algar.common_test.datasets.NewsDataSet
+import com.algar.common_test.datasets.NewsDataSet.fakeArticles
 import com.algar.common_test.espresso.RecyclerViewItemCountAssertion.Companion.withItemCount
 import com.algar.home.di.featureHomeModule
-import com.algar.model.NewsResponse
-import com.algar.remote.model.ApiResponse
+import com.algar.model.Article
 import com.algar.repository.AppDispatchers
 import com.algar.repository.NewsRepository
+import com.algar.repository.utils.Resource
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -50,8 +50,9 @@ class HomeInstrumentationTest: KoinTest {
     @Test
     fun recyclerViewContainsAllItemsFedToIt() {
         val numberOfArticles = 20
-        coEvery { newsRepositoryMock.getTopHeadlines() } returns MutableLiveData<ApiResponse<NewsResponse>>().apply {
-            postValue(NewsDataSet.fakeSuccessfulApiResponse(numberOfArticles = numberOfArticles))
+        val stubReturnValue = Resource.success(data = fakeArticles(count = numberOfArticles))
+        coEvery { newsRepositoryMock.getTopHeadlines() } returns MutableLiveData<Resource<List<Article>>>().apply {
+            postValue(stubReturnValue)
         }
         launchFragment()
 

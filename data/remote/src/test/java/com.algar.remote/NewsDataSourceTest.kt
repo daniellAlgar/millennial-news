@@ -1,7 +1,6 @@
 package com.algar.remote
 
 import com.algar.remote.model.ApiResponse.Error
-import com.algar.remote.model.ApiResponse.NetworkError
 import com.algar.remote.model.ApiResponse.Success
 import com.algar.remote.base.BaseTest
 import org.junit.Test
@@ -39,16 +38,6 @@ class NewsDataSourceTest: BaseTest() {
         runBlocking {
             val response = newsService.fetchTopHeadlines()
             assert(response is Error)
-        }
-    }
-
-    @Test
-    fun `Fetch from api when there is no network connection returns a NetworkError`() {
-        mockNoNetworkConnection(server = mockServer)
-
-        runBlocking {
-            val response = newsService.fetchTopHeadlines()
-            assert(response is NetworkError)
         }
     }
 }

@@ -7,8 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.algar.home.HomeViewModel
 import com.algar.home.R
 import com.algar.model.Article
-import com.algar.model.NewsResponse
-import com.algar.remote.model.ApiResponse
+import com.algar.repository.utils.Resource
 
 class HomeAdapter(private val viewModel: HomeViewModel): RecyclerView.Adapter<HomeViewHolder>() {
 
@@ -25,14 +24,14 @@ class HomeAdapter(private val viewModel: HomeViewModel): RecyclerView.Adapter<Ho
     }
 
     // TODO: This is planned to receive a Resource in the future. Keeping it like this for now.
-    fun updateData(items: ApiResponse<NewsResponse>?) = when (items) {
-        is ApiResponse.Success -> {
-            val diffCallback = HomeItemDiffCallback(oldList = articles, newList = items.body.articles)
+    fun updateData(items: Resource<List<Article>>?) = when (items?.status) {
+        Resource.Status.SUCCESS -> {
+            val diffCallback = HomeItemDiffCallback(oldList = articles, newList = items.data)
             val diffResult = DiffUtil.calculateDiff(diffCallback)
             articles.clear()
-            articles.addAll(items.body.articles)
+            items.data?.let { articles.addAll(it) }
             diffResult.dispatchUpdatesTo(this)
         }
-        else -> {}
+        else -> {}  // No error handling at the moment
     }
 }

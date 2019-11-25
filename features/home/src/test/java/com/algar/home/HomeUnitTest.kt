@@ -3,11 +3,11 @@ package com.algar.home
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.algar.common_test.datasets.NewsDataSet.fakeSuccessfulApiResponse
+import com.algar.common_test.datasets.NewsDataSet
 import com.algar.home.domain.GetTopHeadlinesUseCase
-import com.algar.model.NewsResponse
-import com.algar.remote.model.ApiResponse
+import com.algar.model.Article
 import com.algar.repository.AppDispatchers
+import com.algar.repository.utils.Resource
 import io.mockk.coEvery
 import io.mockk.confirmVerified
 import io.mockk.mockk
@@ -39,10 +39,10 @@ class HomeUnitTest {
 
     @Test
     fun `Top headlines requested when ViewModel is created`() {
-        val observer = mockk<Observer<ApiResponse<NewsResponse>>>(relaxed = true)
-        val result = fakeSuccessfulApiResponse(numberOfArticles = 20)
-        coEvery { getTopHeadlinesUseCase() } returns MutableLiveData<ApiResponse<NewsResponse>>().apply {
-            value = result
+        val observer = mockk<Observer<Resource<List<Article>>>>(relaxed = true)
+        val stubResult = Resource.success(data = NewsDataSet.fakeArticles(count = 20))
+        coEvery { getTopHeadlinesUseCase() } returns MutableLiveData<Resource<List<Article>>>().apply {
+            value = stubResult
         }
 
         homeViewModel = HomeViewModel(
@@ -51,7 +51,7 @@ class HomeUnitTest {
         )
         homeViewModel.topHeadlines.observeForever(observer)
         verify {
-            observer.onChanged(result)
+            observer.onChanged(stubResult)
         }
 
         confirmVerified(observer)

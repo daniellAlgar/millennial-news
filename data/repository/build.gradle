@@ -3,7 +3,7 @@ apply from: '../../android_commons.gradle'
 
 dependencies {
     // Modules
-    api project(Modules.remote)     // Not sure I want Modules.remote to be api...?
+    implementation project(Modules.remote)
     api project(Modules.model)
 
     // Android

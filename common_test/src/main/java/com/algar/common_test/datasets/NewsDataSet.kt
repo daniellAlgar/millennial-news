@@ -1,11 +1,8 @@
 package com.algar.common_test.datasets
 
 import com.algar.model.Article
-import com.algar.model.NewsResponse
 import com.algar.model.Source
-import com.algar.remote.model.ApiResponse
 import org.joda.time.DateTime
-import javax.net.ssl.HttpsURLConnection
 
 /**
  * Contains fake data that can be used in tests related to the news api.
@@ -28,7 +25,7 @@ object NewsDataSet {
     /**
      * Generates a list of articles, all with a unique ID.
      */
-    private fun fakeArticles(count: Int = 1): ArrayList<Article> {
+    fun fakeArticles(count: Int = 1): ArrayList<Article> {
         val output = ArrayList<Article>()
         (0 until count).mapTo(output) {
             fakeArticle.copy(source = fakeSource.copy(id = it.toString()))
@@ -36,12 +33,4 @@ object NewsDataSet {
 
         return output
     }
-
-    fun fakeSuccessfulApiResponse(numberOfArticles: Int) = ApiResponse.Success(
-        NewsResponse(
-            status = HttpsURLConnection.HTTP_OK.toString(),
-            totalResults = numberOfArticles,
-            articles = fakeArticles(count = numberOfArticles)
-        )
-    )
 }
