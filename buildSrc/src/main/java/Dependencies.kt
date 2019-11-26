@@ -36,7 +36,7 @@ object Versions {
     const val okHttp = "4.2.2"
     const val gson = "2.8.6"
     const val mockWebServer = "2.7.5"
-    const val mockk = "1.9.3"
+    const val mockk = "1.9.2"   // 1.9.3 has a bug that makes gradle crash when running instrumented tests. See https://github.com/mockk/mockk/issues/281
     const val coroutines = "1.3.2-1.3.60"
     const val joda = "2.10.5"
     const val constraintLayout = "2.0.0-beta3"
