@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.swipeDown
 import androidx.test.espresso.contrib.RecyclerViewActions
@@ -28,6 +29,7 @@ import org.koin.core.context.loadKoinModules
 import org.koin.core.context.unloadKoinModules
 import org.koin.dsl.module
 import org.koin.test.KoinTest
+import org.junit.Assert.assertFalse
 
 @RunWith(AndroidJUnit4::class)
 class HomeInstrumentationTest: KoinTest {
@@ -62,6 +64,7 @@ class HomeInstrumentationTest: KoinTest {
         launchFragment()
 
         onView(withId(R.id.fragment_home_recycler_view)).perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(0))
+
         onView(withId(R.id.fragment_home_recycler_view)).check(withItemCount(expectedCount = numberOfArticles))
     }
 
@@ -79,7 +82,11 @@ class HomeInstrumentationTest: KoinTest {
         }
         onView(withId(R.id.fragment_hope_swipe_to_refresh)).perform(swipeDown())
         onView(withId(R.id.fragment_home_recycler_view)).perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(0))
+
         onView(withId(R.id.fragment_home_recycler_view)).check(withItemCount(expectedCount = 20))
+        onView(withId(R.id.fragment_hope_swipe_to_refresh)).check { view, _ ->
+            assertFalse("This view shouldn't show a refresh progress at the moment.", (view as SwipeRefreshLayout).isRefreshing)
+        }
     }
 
     /**
