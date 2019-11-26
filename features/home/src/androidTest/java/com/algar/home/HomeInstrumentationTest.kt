@@ -6,6 +6,7 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.swipeDown
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -24,7 +25,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.core.context.loadKoinModules
-import org.koin.core.context.stopKoin
+import org.koin.core.context.unloadKoinModules
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 
@@ -32,19 +33,23 @@ import org.koin.test.KoinTest
 class HomeInstrumentationTest: KoinTest {
 
     private val newsRepositoryMock = mockk<NewsRepository>()
-    private val testDispatchers = AppDispatchers(main = Dispatchers.Main, io = Dispatchers.Main)
+
+    private val modules = listOf(featureHomeModule, module {
+        factory { AppDispatchers(main = Dispatchers.Main, io = Dispatchers.Main) }
+        factory { newsRepositoryMock }
+    })
 
     @Before
     fun setUp() {
-        loadKoinModules(featureHomeModule, module {
-            factory { testDispatchers }
-            factory { newsRepositoryMock }
-        })
+        loadKoinModules(modules)
     }
 
     @After
     fun tearDown() {
-        stopKoin()
+        /* Obs: stopKoin() would be optimal here but I haven't found a way to get that to work with
+         * multiple instrumentation tests. It will kill all remaining tests.
+         */
+        unloadKoinModules(modules)
     }
 
     @Test
@@ -58,6 +63,23 @@ class HomeInstrumentationTest: KoinTest {
 
         onView(withId(R.id.fragment_home_recycler_view)).perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(0))
         onView(withId(R.id.fragment_home_recycler_view)).check(withItemCount(expectedCount = numberOfArticles))
+    }
+
+    @Test
+    fun pullToRefreshFetchesNewData() {
+        val onCreateReturnValue = Resource.success(data = fakeArticles(count = 10))
+        coEvery { newsRepositoryMock.getTopHeadlines() } returns MutableLiveData<Resource<List<Article>>>().apply {
+            postValue(onCreateReturnValue)
+        }
+        launchFragment()
+
+        val onRefreshReturnValue = Resource.success(data = fakeArticles(count = 20))
+        coEvery { newsRepositoryMock.getTopHeadlines() } returns MutableLiveData<Resource<List<Article>>>().apply {
+            postValue(onRefreshReturnValue)
+        }
+        onView(withId(R.id.fragment_hope_swipe_to_refresh)).perform(swipeDown())
+        onView(withId(R.id.fragment_home_recycler_view)).perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(0))
+        onView(withId(R.id.fragment_home_recycler_view)).check(withItemCount(expectedCount = 20))
     }
 
     /**

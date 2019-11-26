@@ -15,12 +15,19 @@
         android:layout_height="match_parent"
         tools:context=".HomeFragment">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/fragment_home_recycler_view"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:items="@{viewModel.topHeadlines}"
-            style="@style/HomeRecyclerViewStyle"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            android:id="@+id/fragment_hope_swipe_to_refresh"
+            app:onRefreshListener="@{() -> viewModel.refreshNewsItems()}">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fragment_home_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:items="@{viewModel.topHeadlines}"
+                style="@style/HomeRecyclerViewStyle"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

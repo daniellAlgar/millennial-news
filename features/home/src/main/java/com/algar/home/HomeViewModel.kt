@@ -34,4 +34,8 @@ class HomeViewModel(
             _topHeadlines.value = it
         }
     }
+
+    fun refreshNewsItems() {
+        getTopHeadlines()
+    }
 }
