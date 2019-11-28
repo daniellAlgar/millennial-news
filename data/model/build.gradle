@@ -1,9 +1,7 @@
-apply plugin: 'kotlin'
+apply plugin: 'com.android.library'
+apply from: '../../android_commons.gradle'
 
 dependencies {
-    // Kotlin
-    implementation KotlinLibraries.kotlin
-    
     // Time
     implementation Libraries.joda
 }

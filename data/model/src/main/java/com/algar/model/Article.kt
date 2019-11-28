@@ -1,7 +1,10 @@
 package com.algar.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 import org.joda.time.DateTime
 
+@Parcelize
 data class Article(
     val source: Source,
     val author: String?,
@@ -11,4 +14,4 @@ data class Article(
     val urlToImage: String,
     val publishedAt: DateTime,
     val content: String?
-)
+): Parcelable
