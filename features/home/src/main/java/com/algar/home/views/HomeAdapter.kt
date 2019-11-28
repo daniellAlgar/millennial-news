@@ -20,7 +20,7 @@ class HomeAdapter(private val viewModel: HomeViewModel): RecyclerView.Adapter<Ho
     override fun getItemCount(): Int = articles.size
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
-        holder.bindTo(article = articles[position])
+        holder.bindTo(article = articles[position], viewModel = viewModel)
     }
 
     // TODO: This is planned to receive a Resource in the future. Keeping it like this for now.

@@ -2,7 +2,8 @@
 <navigation
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/article_navigation_graph">
+    android:id="@+id/article_navigation_graph"
+    app:startDestination="@id/articleFragment">
 
     <fragment
         android:id="@+id/articleFragment"

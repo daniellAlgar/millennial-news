@@ -11,6 +11,7 @@ object Modules {
     const val remote = ":data:remote"
     const val navigation = ":navigation"
     const val featureHome = ":features:home"
+    const val featureArticle = ":features:article"
 }
 
 object Releases {

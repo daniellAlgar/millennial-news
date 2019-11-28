@@ -26,6 +26,7 @@ dependencies {
     implementation project(Modules.repository)
 
     implementation project(Modules.featureHome)
+    implementation project(Modules.featureArticle)
 
     // Navigation
     implementation project(Modules.navigation)

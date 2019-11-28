@@ -1,6 +1,7 @@
 package com.algar.millennial_news.di
 
 import android.content.Context
+import com.algar.article.di.featureArticleModule
 import com.algar.home.di.featureHomeModule
 import com.algar.millennial_news.R
 import com.algar.remote.di.createRemoteModule
@@ -12,5 +13,6 @@ fun appComponent(context: Context) = listOf(
         apiKey = context.getString(R.string.news_api_key)
     ),
     repositoryModule,
-    featureHomeModule
+    featureHomeModule,
+    featureArticleModule
 )

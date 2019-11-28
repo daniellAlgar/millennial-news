@@ -7,6 +7,17 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.algar.home.HomeFragment"/>
+        android:name="com.algar.home.HomeFragment">
+        <action
+            android:id="@+id/action_homeFragment_to_article_navigation_graph"
+            app:destination="@id/article_navigation_graph">
+
+            <argument
+                android:name="article"
+                app:argType="com.algar.model.Article" />
+        </action>
+    </fragment>
+
+    <include app:graph="@navigation/article_navigation_graph"/>
 
 </navigation>

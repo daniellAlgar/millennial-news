@@ -7,12 +7,17 @@
         <variable
             name="article"
             type="com.algar.model.Article" />
+
+        <variable
+            name="viewModel"
+            type="com.algar.home.HomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/HomeItemContainerStyle">
+        style="@style/HomeItemContainerStyle"
+        android:onClick="@{() -> viewModel.userClicksOnItem(article)}">
 
         <TextView
             android:layout_width="match_parent"

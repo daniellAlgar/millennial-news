@@ -38,4 +38,8 @@ class HomeViewModel(
     fun refreshNewsItems() {
         getTopHeadlines()
     }
+
+    fun userClicksOnItem(article: Article) {
+        navigate(HomeFragmentDirections.actionHomeFragmentToArticleNavigationGraph(article))
+    }
 }

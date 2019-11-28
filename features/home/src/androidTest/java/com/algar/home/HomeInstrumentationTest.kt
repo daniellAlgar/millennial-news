@@ -7,6 +7,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.swipeDown
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -20,6 +21,7 @@ import com.algar.repository.NewsRepository
 import com.algar.repository.utils.Resource
 import io.mockk.coEvery
 import io.mockk.mockk
+import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import org.junit.After
 import org.junit.Before
@@ -61,8 +63,8 @@ class HomeInstrumentationTest: KoinTest {
         coEvery { newsRepositoryMock.getTopHeadlines() } returns MutableLiveData<Resource<List<Article>>>().apply {
             postValue(stubReturnValue)
         }
-        launchFragment()
 
+        launchFragment()
         onView(withId(R.id.fragment_home_recycler_view)).perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(0))
 
         onView(withId(R.id.fragment_home_recycler_view)).check(withItemCount(expectedCount = numberOfArticles))
@@ -74,8 +76,8 @@ class HomeInstrumentationTest: KoinTest {
         coEvery { newsRepositoryMock.getTopHeadlines() } returns MutableLiveData<Resource<List<Article>>>().apply {
             postValue(onCreateReturnValue)
         }
-        launchFragment()
 
+        launchFragment()
         val onRefreshReturnValue = Resource.success(data = fakeArticles(count = 20))
         coEvery { newsRepositoryMock.getTopHeadlines() } returns MutableLiveData<Resource<List<Article>>>().apply {
             postValue(onRefreshReturnValue)
@@ -86,6 +88,23 @@ class HomeInstrumentationTest: KoinTest {
         onView(withId(R.id.fragment_home_recycler_view)).check(withItemCount(expectedCount = 20))
         onView(withId(R.id.fragment_hope_swipe_to_refresh)).check { view, _ ->
             assertFalse("This view shouldn't show a refresh progress at the moment.", (view as SwipeRefreshLayout).isRefreshing)
+        }
+    }
+
+    @Test
+    fun clickOnHeadlineNavigatesToArticleScreen() {
+        val itemPosition = 0
+        val onCreateReturnValue = Resource.success(data = fakeArticles(count = 10))
+        coEvery { newsRepositoryMock.getTopHeadlines() } returns MutableLiveData<Resource<List<Article>>>().apply {
+            postValue(onCreateReturnValue)
+        }
+
+        val mockNavController = launchFragment()
+        onView(withId(R.id.fragment_home_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(itemPosition, click()))
+
+        val article = onCreateReturnValue.data!![itemPosition]
+        verify {
+            mockNavController.navigate(HomeFragmentDirections.actionHomeFragmentToArticleNavigationGraph(article))
         }
     }
 
