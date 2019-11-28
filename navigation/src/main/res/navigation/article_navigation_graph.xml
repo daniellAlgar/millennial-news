@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/article_navigation_graph">
+
+    <fragment
+        android:id="@+id/articleFragment"
+        android:name="com.algar.article.ArticleFragment"
+        android:label="Article">
+        <argument
+            android:name="article"
+            app:argType="com.algar.model.Article"/>
+    </fragment>
+
+</navigation>
