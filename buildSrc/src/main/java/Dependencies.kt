@@ -43,7 +43,7 @@ object Versions {
     const val constraintLayout = "2.0.0-beta3"
     const val lifecycle = "2.2.0-rc02"
     const val recyclerview = "1.1.0"
-    const val nav = "2.2.0-rc02"
+    const val navigation = "2.2.0-rc02"
     const val fragmentTest = "1.2.0-rc02"
     const val databinding = "3.3.2"
 }
@@ -78,8 +78,8 @@ object AndroidLibraries {
     const val lifecycleViewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
     const val lifecycleExtensions = "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycle}"
     const val recyclerView = "androidx.recyclerview:recyclerview:${Versions.recyclerview}"
-    const val navigation = "androidx.navigation:navigation-ui-ktx:${Versions.nav}"
-    const val navigationFrag = "androidx.navigation:navigation-fragment-ktx:${Versions.nav}"
+    const val navigation = "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
+    const val navigationFrag = "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
 }
 
 object TestLibraries {

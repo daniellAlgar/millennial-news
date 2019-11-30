@@ -15,6 +15,10 @@
             <argument
                 android:name="article"
                 app:argType="com.algar.model.Article" />
+
+            <argument
+                android:name="title"
+                app:argType="string"/>
         </action>
     </fragment>
 

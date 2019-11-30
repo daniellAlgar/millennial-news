@@ -8,10 +8,14 @@
     <fragment
         android:id="@+id/articleFragment"
         android:name="com.algar.article.ArticleFragment"
-        android:label="Article">
+        android:label="{title}">
         <argument
             android:name="article"
             app:argType="com.algar.model.Article"/>
+
+        <argument
+            android:name="title"
+            app:argType="string"/>
     </fragment>
 
 </navigation>

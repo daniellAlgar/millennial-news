@@ -40,6 +40,6 @@ class HomeViewModel(
     }
 
     fun userClicksOnItem(article: Article) {
-        navigate(HomeFragmentDirections.actionHomeFragmentToArticleNavigationGraph(article))
+        navigate(HomeFragmentDirections.actionHomeFragmentToArticleNavigationGraph(article, article.title))
     }
 }
