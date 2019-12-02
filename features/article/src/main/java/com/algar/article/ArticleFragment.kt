@@ -25,6 +25,7 @@ class ArticleFragment : BaseFragment() {
     ): View? {
         binding = FragmentArticleBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
+        binding.article = args.article
         return binding.root
     }
 }
