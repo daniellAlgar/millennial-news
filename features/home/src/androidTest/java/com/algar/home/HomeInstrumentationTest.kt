@@ -104,7 +104,7 @@ class HomeInstrumentationTest: KoinTest {
 
         val article = onCreateReturnValue.data!![itemPosition]
         verify {
-            mockNavController.navigate(HomeFragmentDirections.actionHomeFragmentToArticleNavigationGraph(article))
+            mockNavController.navigate(HomeFragmentDirections.actionHomeFragmentToArticleNavigationGraph(article, article.title))
         }
     }
 
