@@ -1,10 +1,15 @@
 apply plugin: 'com.android.application'
 apply from: '../android_commons.gradle'
+apply from: '../android_commons_test.gradle'
 
 android {
     defaultConfig {
         applicationId ApplicationId.id
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.algar.common_test.FakeRunner"
+    }
+
+    testOptions {
+        animationsDisabled = true
     }
 
     dataBinding {

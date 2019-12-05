@@ -46,6 +46,7 @@ object Versions {
     const val navigation = "2.2.0-rc02"
     const val fragmentTest = "1.2.0-rc02"
     const val databinding = "3.3.2"
+    const val testRules = "1.3.0-alpha03"
 }
 
 object Libraries {
@@ -90,6 +91,7 @@ object TestLibraries {
     const val archCoreTest = "androidx.arch.core:core-testing:${Versions.archCoreTest}"
     const val junit = "androidx.test.ext:junit:${Versions.androidJunit}"
     const val fragmentNav = "androidx.fragment:fragment-testing:${Versions.fragmentTest}"
+    const val testRules = "androidx.test:rules:${Versions.testRules}"
 
     // Mock
     const val mockWebServer = "com.squareup.okhttp:mockwebserver:${Versions.mockWebServer}"
