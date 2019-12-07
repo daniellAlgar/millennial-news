@@ -11,6 +11,7 @@ import java.util.regex.Pattern
  *
  * All log strings are initialized lazily with a closure to keep the garbage to one object only.
  */
+// TODO: Remove and replace with Timber. This to help with unit testing since [Log] is part of Android and that sucks
 object Logger {
     fun v(tag: String = callerTag(), message: () -> String) = inDebug {
         Log.v(tag, message())
