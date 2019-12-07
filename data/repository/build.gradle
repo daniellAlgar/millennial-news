@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply from: '../../android_commons.gradle'
+apply from: '../../android_commons_test.gradle'
 
 dependencies {
     // Modules
@@ -14,11 +15,4 @@ dependencies {
     // Koin
     implementation Libraries.koin
     implementation Libraries.koinViewModel
-
-    // Test
-    testImplementation TestLibraries.junit
-    testImplementation TestLibraries.mockk
-    testImplementation TestLibraries.archCoreTest
-    testImplementation TestLibraries.coroutine
-    testImplementation project(Modules.commonTest)
 }

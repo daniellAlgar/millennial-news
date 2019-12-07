@@ -22,7 +22,7 @@ class HomeAdapter(private val viewModel: HomeViewModel): RecyclerView.Adapter<Ho
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         holder.bindTo(article = articles[position], viewModel = viewModel)
     }
-    
+
     fun updateData(items: Resource<List<Article>>?) = when (items?.status) {
         Resource.Status.SUCCESS -> {
             val diffCallback = HomeItemDiffCallback(oldList = articles, newList = items.data)
