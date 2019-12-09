@@ -4,4 +4,7 @@ apply from: '../../android_commons.gradle'
 dependencies {
     // Time
     implementation Libraries.joda
+
+    // Room
+    implementation Libraries.roomRunTime
 }

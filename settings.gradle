@@ -6,6 +6,7 @@ include ':navigation'
 
 // Data modules
 include ':data:model'
+include ':data:local'
 include ':data:repository'
 include ':data:remote'
 

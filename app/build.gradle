@@ -27,13 +27,13 @@ dependencies {
     implementation AndroidLibraries.navigationFrag
 
     // Modules
+    implementation project(Modules.local)
     implementation project(Modules.remote)
     implementation project(Modules.repository)
 
     implementation project(Modules.featureHome)
     implementation project(Modules.featureArticle)
 
-    // Navigation
     implementation project(Modules.navigation)
 
     // Koin

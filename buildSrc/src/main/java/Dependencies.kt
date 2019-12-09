@@ -9,6 +9,7 @@ object Modules {
     const val model = ":data:model"
     const val repository = ":data:repository"
     const val remote = ":data:remote"
+    const val local = ":data:local"
     const val navigation = ":navigation"
     const val featureHome = ":features:home"
     const val featureArticle = ":features:article"
@@ -23,9 +24,9 @@ object Versions {
     const val compileSdk = 28
     const val minSdk = 23
     const val targetSdk = 28
-    const val kotlin = "1.3.60"
+    const val kotlin = "1.3.61"
     const val gradle = "4.0.0-alpha04"
-    const val appCompat = "1.1.0"
+    const val appCompat = "1.2.0-alpha01"
     const val coreKtx = "1.2.0-rc01"
     const val androidJunit = "1.1.2-alpha02"
     const val androidTestRunner = "1.3.0-alpha02"
@@ -47,6 +48,8 @@ object Versions {
     const val fragmentTest = "1.2.0-rc02"
     const val databinding = "3.3.2"
     const val testRules = "1.3.0-alpha03"
+    const val room = "2.2.2"
+
 }
 
 object Libraries {
@@ -62,6 +65,11 @@ object Libraries {
 
     // Time
     const val joda = "joda-time:joda-time:${Versions.joda}"
+
+    // Room
+    const val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
+    const val roomRunTime = "androidx.room:room-runtime:${Versions.room}"
+    const val roomKtx = "androidx.room:room-ktx:${Versions.room}"
 }
 
 object KotlinLibraries {

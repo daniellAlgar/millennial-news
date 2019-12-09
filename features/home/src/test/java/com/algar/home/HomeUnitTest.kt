@@ -23,7 +23,7 @@ import org.junit.runners.JUnit4
 class HomeUnitTest {
 
     @get:Rule
-    var rule = InstantTaskExecutorRule()
+    val rule = InstantTaskExecutorRule()
 
     private lateinit var getTopHeadlinesUseCase: GetTopHeadlinesUseCase
     private lateinit var homeViewModel: HomeViewModel
