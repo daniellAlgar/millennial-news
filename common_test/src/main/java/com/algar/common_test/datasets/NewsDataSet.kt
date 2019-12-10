@@ -9,6 +9,11 @@ import org.joda.time.DateTime
  */
 object NewsDataSet {
 
+    /**
+     * We set a fixed current time since [DateTime.now] doesn't work (properly) in unit tests.
+     */
+    val CURRENT_TIME = DateTime(2020, 2, 20, 2, 0)
+
     private val fakeSource = Source(id = null, name = "Fake News")
 
     private val fakeArticle = Article(
@@ -18,7 +23,7 @@ object NewsDataSet {
         description = "Whatever you do, however it feels or sounds like, remember that this is the utter truth.",
         url = "https://fake-news-daily.com",
         urlToImage = "https://meme-for-stupids.com/wrong-but-right-facts.jpg",
-        publishedAt = DateTime(),
+        publishedAt = CURRENT_TIME,
         content = "Charging your phone with the cord pointing downwards makes the charging go faster. True story."
     )
 
