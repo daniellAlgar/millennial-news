@@ -24,7 +24,8 @@ object NewsDataSet {
         url = "https://fake-news-daily.com",
         urlToImage = "https://meme-for-stupids.com/wrong-but-right-facts.jpg",
         publishedAt = CURRENT_TIME,
-        content = "Charging your phone with the cord pointing downwards makes the charging go faster. True story."
+        content = "Charging your phone with the cord pointing downwards makes the charging go faster. True story.",
+        lastRefreshed = CURRENT_TIME
     )
 
     /**

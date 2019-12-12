@@ -17,7 +17,10 @@ data class Article(
     val title: String,
     val description: String,
     val url: String,
-    val urlToImage: String,
+    val urlToImage: String?,
     val publishedAt: DateTime,
-    val content: String?
+    val content: String?,
+
+    /** Local variable to keep track of when an [Article] was updated */
+    var lastRefreshed: DateTime?
 ): Parcelable
