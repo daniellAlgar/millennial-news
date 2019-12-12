@@ -3,7 +3,6 @@ package com.algar.model
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
 import kotlinx.android.parcel.Parcelize
 import org.joda.time.DateTime
 
@@ -24,3 +23,10 @@ data class Article(
     /** Local variable to keep track of when an [Article] was updated */
     var lastRefreshed: DateTime?
 ): Parcelable
+
+/**
+ * Updates all [Article.lastRefreshed] to current date.
+ */
+fun List<Article>.setLastRefreshedToNow(): List<Article> {
+    return apply { forEach { it.lastRefreshed = DateTime.now() }}
+}
