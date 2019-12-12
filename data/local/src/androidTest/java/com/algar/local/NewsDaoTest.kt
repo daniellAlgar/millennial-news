@@ -20,6 +20,17 @@ class NewsDaoTest: BaseTest() {
        assertEquals(numberOfArticles, numberOfReturnedArticles)
     }
 
+    @Test
+    fun addingArticlesShouldDeleteTheOldOnes() = runBlocking {
+        populateDatabase()
+        populateDatabase()
+
+        val articles = newsDao.getArticles()
+        val numberOfReturnedArticles = articles.count()
+
+        assertEquals(numberOfArticles, numberOfReturnedArticles)
+    }
+
     /**
      * Helper methods
      */

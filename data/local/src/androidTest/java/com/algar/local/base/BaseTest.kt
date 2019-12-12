@@ -1,10 +1,10 @@
 package com.algar.local.base
 
 import android.content.Context
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.algar.local.rule.IsMainExecutorRule
 import com.algar.local.NewsDatabase
 import com.algar.local.dao.NewsDao
 import com.algar.local.util.DateTimeSerializer
@@ -28,7 +28,7 @@ abstract class BaseTest: KoinTest {
     val newsDao: NewsDao by inject()
 
     @get:Rule
-    val rule = InstantTaskExecutorRule()
+    val rule = IsMainExecutorRule()
 
     @Before
     open fun setUp() {
