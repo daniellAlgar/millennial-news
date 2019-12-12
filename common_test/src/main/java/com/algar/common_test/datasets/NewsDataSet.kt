@@ -12,7 +12,7 @@ object NewsDataSet {
     /**
      * We set a fixed current time since [DateTime.now] doesn't work (properly) in unit tests.
      */
-    val CURRENT_TIME = DateTime(2020, 2, 20, 2, 0)
+    val CURRENT_TIME = DateTime(2002, 2, 2, 2, 0)
 
     private val fakeSource = Source(id = null, name = "Fake News")
 

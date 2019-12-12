@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import com.algar.model.Article
+import com.algar.model.setLastRefreshedToNow
 
 @Dao
 abstract class NewsDao {
@@ -13,11 +14,11 @@ abstract class NewsDao {
     @Transaction
     open suspend fun save(articles: List<Article>) {
         deleteAllArticles()
-        insert(articles = articles)
+        insert(articles = articles.setLastRefreshedToNow())
     }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insert(articles: List<Article>)
+    protected abstract suspend fun insert(articles: List<Article>)
 
     @Query("SELECT * FROM Article")
     abstract suspend fun getArticles(): List<Article>

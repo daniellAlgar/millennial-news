@@ -5,6 +5,7 @@ import com.algar.local.base.BaseTest
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 
 class NewsDaoTest: BaseTest() {
 
@@ -29,6 +30,18 @@ class NewsDaoTest: BaseTest() {
         val numberOfReturnedArticles = articles.count()
 
         assertEquals(numberOfArticles, numberOfReturnedArticles)
+    }
+
+    @Test
+    fun savingAnArticleWillUpdateItsLastRefreshedDate() = runBlocking {
+        val article = fakeArticles(count = 1)
+        val lastRefreshed = article.first().lastRefreshed
+
+        newsDao.save(articles = article)
+        val updatedArticle = newsDao.getArticles()
+        val updatedArticleLastRefreshed = updatedArticle.first().lastRefreshed
+
+        assertNotEquals(lastRefreshed, updatedArticleLastRefreshed)
     }
 
     /**
