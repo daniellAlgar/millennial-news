@@ -1,73 +1,85 @@
 package com.algar.repository.utils
 
-import android.util.Log
 import androidx.annotation.MainThread
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import kotlinx.coroutines.*
-import java.lang.Exception
+import com.algar.remote.model.ApiResponse
+import com.algar.remote.model.ApiResponse.Error
+import com.algar.remote.model.ApiResponse.Success
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.coroutines.coroutineContext
 
 /**
- * A generic class that can provide a resource backed by both the sqlite database and the network.
+ * A generic class that can provide a resource backed by both the SQLite database and the network.
  * You can read more about it in the [Architecture Guide](https://developer.android.com/arch).
  *
- * Obs: It uses coroutines.
+ * Note 1: There is an optional function [onFetchFailed] that you can override.
+ * Note 2: This class expects a network call to return an [ApiResponse].
+ * Note 3: This class uses coroutines.
  *
  * @param <ResultType>
  * @param <RequestType>
  */
-abstract class NetworkBoundResource<ResultType, RequestType>(private val dispatcher: CoroutineDispatcher) {
+abstract class NetworkBoundResource<ResultType, RequestType>(
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+) {
 
     private val result = MutableLiveData<Resource<ResultType>>()
 
     suspend fun build(): NetworkBoundResource<ResultType, RequestType> {
         withContext(Dispatchers.Main) {
-//            result.value = Resource.loading(null)
             setValue(newValue = Resource.loading(data = null))
         }
         CoroutineScope(coroutineContext).launch(dispatcher) {
-            val dbResult = loadFromDb()
-            if (shouldFetch(dbResult)) {
-                try {
-                    fetchFromNetwork(dbResult)
-                } catch (e: Exception) {
-                    Log.e("NetworkBoundResource", "An error happened: $e")
-                    setValue(Resource.error(e, loadFromDb()))
-                }
+            val dbSource = loadFromDb()
+            if (shouldFetch(dbSource)) {
+                fetchFromNetwork(dbSource)
             } else {
-                Log.d(NetworkBoundResource::class.java.name, "Return data from local database")
-                setValue(Resource.success(dbResult))
+                setValue(Resource.success(dbSource))
             }
         }
         return this
     }
 
-    fun asLiveData() = result as LiveData<Resource<ResultType>>
+    private suspend fun fetchFromNetwork(dbSource: ResultType) {
+        setValue(Resource.loading(dbSource)) // Dispatch latest value quickly (UX purpose)
 
-    private suspend fun fetchFromNetwork(dbResult: ResultType) {
-        Log.d(NetworkBoundResource::class.java.name, "Fetch data from network")
-        setValue(Resource.loading(dbResult)) // Dispatch latest value quickly (UX purpose)
-        val apiResponse = createCall()
-        Log.e(NetworkBoundResource::class.java.name, "Data fetched from network")
-        saveCallResults(processResponse(apiResponse))
-        setValue(Resource.success(loadFromDb()))
+        when (val apiResponse = createCall()) {
+            is Success -> {
+                saveCallResults(data = processResponse(response = apiResponse))
+                setValue(Resource.success(data = loadFromDb()))
+            }
+            is Error -> {
+                setValue(Resource.error(apiResponse.error, dbSource))
+                onFetchFailed()
+            }
+        }
     }
 
     @MainThread
     private fun setValue(newValue: Resource<ResultType>) {
-        Log.d(NetworkBoundResource::class.java.name, "Resource: "+newValue)
         if (result.value != newValue) {
             result.postValue(newValue)
         }
     }
 
-    @WorkerThread
-    protected abstract fun processResponse(response: RequestType): ResultType
+    fun asLiveData() = result as LiveData<Resource<ResultType>>
+
+    /**
+     * What to do when a network call fails (i.e. throws an error).
+     */
+    protected open fun onFetchFailed() {}
 
     @WorkerThread
-    protected abstract suspend fun saveCallResults(items: ResultType)
+    protected fun processResponse(response: Success<RequestType>): RequestType = response.body
+
+    @WorkerThread
+    protected abstract suspend fun saveCallResults(data: RequestType)
 
     @MainThread
     protected abstract fun shouldFetch(data: ResultType?): Boolean
@@ -76,5 +88,5 @@ abstract class NetworkBoundResource<ResultType, RequestType>(private val dispatc
     protected abstract suspend fun loadFromDb(): ResultType
 
     @MainThread
-    protected abstract suspend fun createCall(): RequestType
+    protected abstract suspend fun createCall(): ApiResponse<RequestType>
 }
