@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import com.algar.local.dao.NewsDao
 import com.algar.model.Article
 import com.algar.model.NewsResponse
+import com.algar.model.shouldRefreshFromNetwork
 import com.algar.remote.NewsDataSource
 import com.algar.remote.model.ApiResponse
 import com.algar.repository.utils.NetworkBoundResource
@@ -23,7 +24,7 @@ class NewsRepositoryImp(
 
             override suspend fun saveCallResults(data: NewsResponse) = dao.save(data.articles)
 
-            override fun shouldFetch(data: List<Article>?) = data.isNullOrEmpty() || forceRefresh
+            override fun shouldFetch(data: List<Article>?) = data.isNullOrEmpty() || forceRefresh || data.shouldRefreshFromNetwork()
 
             override suspend fun loadFromDb(): List<Article> = dao.getArticles()
 
