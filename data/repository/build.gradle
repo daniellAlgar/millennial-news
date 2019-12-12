@@ -5,6 +5,7 @@ apply from: '../../android_commons_test.gradle'
 dependencies {
     // Modules
     implementation project(Modules.remote)
+    implementation project(Modules.local)
     api project(Modules.model)
 
     // Android

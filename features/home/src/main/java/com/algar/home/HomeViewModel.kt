@@ -5,6 +5,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.algar.common.base.BaseViewModel
+import com.algar.home.HomeFragmentDirections.Companion.actionHomeFragmentToArticleNavigationGraph
 import com.algar.home.domain.GetTopHeadlinesUseCase
 import com.algar.model.Article
 import com.algar.repository.AppDispatchers
@@ -40,6 +41,6 @@ class HomeViewModel(
     }
 
     fun userClicksOnItem(article: Article) {
-        navigate(HomeFragmentDirections.actionHomeFragmentToArticleNavigationGraph(article, article.title))
+        navigate(actionHomeFragmentToArticleNavigationGraph(article, article.title))
     }
 }
