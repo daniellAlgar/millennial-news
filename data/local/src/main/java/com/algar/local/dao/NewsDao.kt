@@ -1,5 +1,6 @@
 package com.algar.local.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -21,7 +22,7 @@ abstract class NewsDao {
     protected abstract suspend fun insert(articles: List<Article>)
 
     @Query("SELECT * FROM Article")
-    abstract suspend fun getArticles(): List<Article>
+    abstract fun getArticles(): LiveData<List<Article>>
 
     @Query("DELETE FROM Article")
     abstract suspend fun deleteAllArticles()

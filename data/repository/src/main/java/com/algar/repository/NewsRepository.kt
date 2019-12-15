@@ -7,7 +7,7 @@ import com.algar.model.NewsResponse
 import com.algar.model.shouldRefreshFromNetwork
 import com.algar.remote.NewsDataSource
 import com.algar.remote.model.ApiResponse
-import com.algar.repository.utils.NetworkBoundResource
+import com.algar.repository.utils.NetworkBoundResourceCoroutines
 import com.algar.repository.utils.Resource
 
 interface NewsRepository {
@@ -20,15 +20,15 @@ class NewsRepositoryImp(
 ) : NewsRepository {
 
     override suspend fun getTopHeadlines(forceRefresh: Boolean): LiveData<Resource<List<Article>>> {
-        return object : NetworkBoundResource<List<Article>, NewsResponse>() {
+        return object : NetworkBoundResourceCoroutines<List<Article>, NewsResponse>() {
 
-            override suspend fun saveCallResults(data: NewsResponse) = dao.save(data.articles)
+            override suspend fun saveCallResult(data: NewsResponse) = dao.save(articles = data.articles)
 
             override fun shouldFetch(data: List<Article>?) = data.isNullOrEmpty() || forceRefresh || data.shouldRefreshFromNetwork()
 
-            override suspend fun loadFromDb(): List<Article> = dao.getArticles()
+            override fun loadFromDb(): LiveData<List<Article>> = dao.getArticles()
 
             override suspend fun createCall(): ApiResponse<NewsResponse> = newsService.fetchTopHeadlines()
-        }.build().asLiveData()
+        }.asLiveData()
     }
 }

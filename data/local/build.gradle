@@ -14,6 +14,8 @@ dependencies {
     implementation Libraries.roomRunTime
     implementation Libraries.roomKtx
 
+    implementation AndroidLibraries.lifecycleExtensions
+
     // Data module
     implementation project(Modules.model)
 
