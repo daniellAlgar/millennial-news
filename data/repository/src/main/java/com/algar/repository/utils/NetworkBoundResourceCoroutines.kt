@@ -10,24 +10,6 @@ import com.algar.repository.utils.Resource.Companion.loading
 import com.algar.repository.utils.Resource.Companion.success
 import com.algar.repository.utils.Resource.Status.ERROR
 import com.algar.repository.utils.Resource.Status.SUCCESS
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
-
-interface CoroutineLaunch {
-    fun io(work: suspend () -> Unit): Job
-    fun main(work: suspend () -> Unit): Job
-}
-
-object CoroutineLaunchImpl : CoroutineLaunch {
-    override fun io(work: suspend (() -> Unit)): Job = CoroutineScope(Dispatchers.IO).launch {
-        work()
-    }
-    override fun main(work: suspend (() -> Unit)): Job = CoroutineScope(Dispatchers.Main).launch {
-        work()
-    }
-}
 
 /**
  * A generic class that can provide a resource backed by both the SQLite database and the network.
@@ -38,7 +20,7 @@ object CoroutineLaunchImpl : CoroutineLaunch {
  * Note 3: There is an optional function [onFetchFailed] that you can override.
  */
 abstract class NetworkBoundResourceCoroutines<ResultType, RequestType>
-@MainThread constructor(private val coroutines: CoroutineLaunch = CoroutineLaunchImpl) {
+@MainThread constructor(private val coroutines: CoroutineLaunch) {
 
     private val result = MediatorLiveData<Resource<ResultType>>()
 
