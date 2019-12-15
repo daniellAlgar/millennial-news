@@ -6,8 +6,8 @@ android {
         testInstrumentationRunner "com.algar.common_test.FakeRunner"
     }
 
-    dataBinding {
-        enabled true
+    buildFeatures {
+        dataBinding = true
     }
 
     testOptions {
