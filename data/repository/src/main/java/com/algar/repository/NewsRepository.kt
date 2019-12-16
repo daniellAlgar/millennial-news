@@ -8,7 +8,7 @@ import com.algar.model.shouldRefreshFromNetwork
 import com.algar.remote.NewsDataSource
 import com.algar.remote.model.ApiResponse
 import com.algar.repository.utils.CoroutineLaunch
-import com.algar.repository.utils.NetworkBoundResourceCoroutines
+import com.algar.repository.utils.NetworkBoundResource
 import com.algar.repository.utils.Resource
 
 interface NewsRepository {
@@ -22,7 +22,7 @@ class NewsRepositoryImp(
 ) : NewsRepository {
 
     override suspend fun getTopHeadlines(forceRefresh: Boolean): LiveData<Resource<List<Article>>> {
-        return object : NetworkBoundResourceCoroutines<List<Article>, NewsResponse>(coroutines) {
+        return object : NetworkBoundResource<List<Article>, NewsResponse>(coroutines) {
 
             override suspend fun saveCallResult(data: NewsResponse) = dao.save(articles = data.articles)
 

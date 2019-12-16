@@ -3,89 +3,94 @@ package com.algar.repository.utils
 import androidx.annotation.MainThread
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.MediatorLiveData
 import com.algar.remote.model.ApiResponse
-import com.algar.remote.model.ApiResponse.Error
 import com.algar.remote.model.ApiResponse.Success
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlin.coroutines.coroutineContext
+import com.algar.repository.utils.Resource.Companion.loading
+import com.algar.repository.utils.Resource.Companion.success
+import com.algar.repository.utils.Resource.Status.ERROR
+import com.algar.repository.utils.Resource.Status.SUCCESS
 
 /**
  * A generic class that can provide a resource backed by both the SQLite database and the network.
  * You can read more about it in the [Architecture Guide](https://developer.android.com/arch).
  *
- * Note 1: There is an optional function [onFetchFailed] that you can override.
+ * Note 1: This class uses coroutines.
  * Note 2: This class expects a network call to return an [ApiResponse].
- * Note 3: This class uses coroutines.
- *
- * @param <ResultType>
- * @param <RequestType>
+ * Note 3: There is an optional function [onFetchFailed] that you can override.
  */
-abstract class NetworkBoundResource<ResultType, RequestType>(
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
-) {
+abstract class NetworkBoundResource<ResultType, RequestType>
+@MainThread constructor(private val coroutines: CoroutineLaunch) {
 
-    private val result = MutableLiveData<Resource<ResultType>>()
+    private val result = MediatorLiveData<Resource<ResultType>>()
 
-    suspend fun build(): NetworkBoundResource<ResultType, RequestType> {
-        withContext(Dispatchers.Main) {
-            setValue(newValue = Resource.loading(data = null))
-        }
-        CoroutineScope(coroutineContext).launch(dispatcher) {
-            val dbSource = loadFromDb()
-            if (shouldFetch(dbSource)) {
-                fetchFromNetwork(dbSource)
+    init {
+        setValue(newValue = loading(data = null))
+        @Suppress("LeakingThis")
+        val dbSource = loadFromDb()
+        result.addSourceOnce(dbSource) { data ->
+            if (shouldFetch(data = data)) {
+                fetchFromNetwork(dbSource = dbSource)
             } else {
-                setValue(Resource.success(dbSource))
+                result.addSource(dbSource) { newData ->
+                    setValue(newValue = success(newData))
+                }
             }
         }
-        return this
     }
 
-    private suspend fun fetchFromNetwork(dbSource: ResultType) {
-        setValue(Resource.loading(dbSource)) // Dispatch latest value quickly (UX purpose)
-
-        when (val apiResponse = createCall()) {
-            is Success -> {
-                saveCallResults(data = processResponse(response = apiResponse))
-                setValue(Resource.success(data = loadFromDb()))
+    private fun fetchFromNetwork(dbSource: LiveData<ResultType>) = coroutines.io {
+        // we re-attach dbSource as a new source, it will dispatch its latest value quickly
+        coroutines.main {
+            result.addSourceOnce(dbSource) { newData ->
+                setValue(newValue = loading(newData))
             }
-            is Error -> {
-                setValue(Resource.error(apiResponse.error, dbSource))
+        }
+
+        val (status, exception) = when (val apiResponse = createCall()) {
+            is Success -> {
+                saveCallResult(data = processResponse(response = apiResponse))
+                SUCCESS to null
+            }
+            is ApiResponse.Error -> {
                 onFetchFailed()
+                ERROR to apiResponse.error
+            }
+        }
+
+        coroutines.main {
+            result.addSource(loadFromDb()) { newData ->
+                setValue(newValue = Resource(status = status, data = newData, error = exception))
             }
         }
     }
 
     @MainThread
-    private fun setValue(newValue: Resource<ResultType>) {
+    private fun setValue(newValue: Resource<ResultType>) = coroutines.main {
         if (result.value != newValue) {
-            result.postValue(newValue)
+            result.value = newValue
         }
     }
 
     fun asLiveData() = result as LiveData<Resource<ResultType>>
 
     /**
-     * What to do when a network call fails (i.e. throws an error).
+     * Optional method to override that determines what to do when a network call fails (i.e.
+     * throws an error).
      */
     protected open fun onFetchFailed() {}
 
     @WorkerThread
-    protected fun processResponse(response: Success<RequestType>): RequestType = response.body
+    protected open fun processResponse(response: Success<RequestType>) = response.body
 
     @WorkerThread
-    protected abstract suspend fun saveCallResults(data: RequestType)
+    protected abstract suspend fun saveCallResult(data: RequestType)
 
     @MainThread
     protected abstract fun shouldFetch(data: ResultType?): Boolean
 
     @MainThread
-    protected abstract suspend fun loadFromDb(): ResultType
+    protected abstract fun loadFromDb(): LiveData<ResultType>
 
     @MainThread
     protected abstract suspend fun createCall(): ApiResponse<RequestType>
